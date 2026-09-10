@@ -9,6 +9,6 @@ services:
     container_name: devops-web-app
 
     ports:
-      - "8081:80"
+      - "8080:80"
 
     restart: unless-stopped
