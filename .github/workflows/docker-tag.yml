@@ -1,0 +1,43 @@
+name: Docker Image Tagging
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set image name
+        run: |
+          echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/devops-web-app" >> "$GITHUB_ENV"
+
+      - name: Build image with commit tag
+        run: |
+          docker build -t "$IMAGE_NAME:${GITHUB_SHA}" .
+
+      - name: Push image
+        run: |
+          docker push "$IMAGE_NAME:${GITHUB_SHA}"
+
+      - name: Show image tag
+        run: |
+          echo "Image pushed:"
+          echo "$IMAGE_NAME:${GITHUB_SHA}"
+          

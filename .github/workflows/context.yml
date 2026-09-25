@@ -1,0 +1,26 @@
+name: GitHub Context Practice
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  context:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show GitHub context
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Run number: ${{ github.run_number }}"
+
+      - name: Show runner information
+        run: |
+          echo "OS: ${{ runner.os }}"
+          echo "Architecture: ${{ runner.arch }}"
+          echo "Runner name: ${{ runner.name }}"

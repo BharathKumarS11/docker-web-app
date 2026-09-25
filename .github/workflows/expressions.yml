@@ -1,0 +1,40 @@
+name: Expressions Practice
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show event information
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+
+      - name: Build application
+        run: |
+          echo "Building application..."
+
+      - name: Deploy to production
+        if: github.event_name == 'push' && github.ref_name == 'main'
+        run: |
+          echo "Deploying to PRODUCTION"
+
+      - name: Deploy to development
+        if: github.event_name == 'push' && github.ref_name == 'develop'
+        run: |
+          echo "Deploying to DEVELOPMENT"
+
+      - name: Pull request message
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Pull request detected - deployment skipped"

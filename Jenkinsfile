@@ -27,12 +27,12 @@ pipeline {
                 sh '''
                     docker run -d \
                         --name jenkins-test-app \
-                        -p 8080:80 \
+                        -p 8081:80 \
                         $IMAGE_NAME:$IMAGE_TAG
 
                     sleep 3
 
-                    curl --fail http://localhost:8080
+                    curl --fail http://localhost:8081
                 '''
             }
         }
@@ -63,7 +63,8 @@ pipeline {
 
     post {
         always {
-            sh 'docker rm -f jenkins-test-app || true'
+        echo "Build #${BUILD_NUMBER} finished."
+        sh 'docker rm -f jenkins-test-app || true'
         }
 
         success {
@@ -71,7 +72,7 @@ pipeline {
         }
 
         failure {
-            echo 'CI/CD pipeline failed. Check the logs.'
+            echo 'CI/CD pipeline failed. Check the logs...'
         }
     }
 }

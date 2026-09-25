@@ -1,0 +1,25 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Docker image version to deploy"
+        required: true
+        default: "latest"
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show selected version
+        run: |
+          echo "Deploying version: ${{ inputs.version }}"
+
+      - name: Simulate deployment
+        run: |
+          echo "Pulling image..."
+          echo "ghcr.io/bharathkumars11/devops-web-app:${{ inputs.version }}"
+          echo "Deploying selected version..."
+          echo "Rollback deployment completed successfully!"

@@ -1,0 +1,17 @@
+name: Call Reusable CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-ci:
+    name: Call Reusable Workflow
+    uses: ./.github/workflows/reusable-ci.yml
+
+    with:
+      environment: production
+
+    secrets:
+      APP_MESSAGE: ${{ secrets.APP_MESSAGE }}

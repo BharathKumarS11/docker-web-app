@@ -1,0 +1,35 @@
+name: Reusable CI
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "Environment to test"
+        required: true
+        type: string
+
+    secrets:
+      APP_MESSAGE:
+        required: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      APP_MESSAGE: ${{ secrets.APP_MESSAGE }}
+
+    steps:
+      - name: Check secret
+        run: |
+          echo "Secret received successfully"
+          echo "Secret length: ${#APP_MESSAGE}"
+
+      - name: Show environment
+        run: |
+          echo "Running reusable CI"
+          echo "Environment: ${{ inputs.environment }}"
+
+      - name: Run tests
+        run: |
+          echo "Running tests for ${{ inputs.environment }}"
+          echo "Tests passed"

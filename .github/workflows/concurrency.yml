@@ -1,0 +1,25 @@
+name: Concurrency Practice
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Production Deployment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Start deployment
+        run: |
+          echo "Deployment started sleeping for 30 seconds to simulate a long-running deployment"
+          sleep 30
+
+      - name: Complete deployment
+        run: |
+          echo "Deployment completed successfully..."

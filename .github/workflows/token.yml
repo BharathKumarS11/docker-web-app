@@ -1,0 +1,24 @@
+name: GITHUB_TOKEN Practice
+
+on:
+  push:
+    branches:
+      - main
+
+permissions: {}
+  
+
+jobs:
+  token:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check token
+        run: |
+          echo "GITHUB_TOKEN is available"
+          echo "Token length: ${#GITHUB_TOKEN}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

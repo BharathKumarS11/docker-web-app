@@ -1,0 +1,14 @@
+name: Permissions Practice
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Try checkout
+        uses: actions/checkout@v4

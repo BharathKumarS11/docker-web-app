@@ -1,0 +1,35 @@
+name: Dependency Cache Practice
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test with Cache
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create package files
+        run: |
+          echo '{"name":"cache-practice","version":"1.0.0","dependencies":{"lodash":"4.17.21"}}' > package.json
+          npm install --package-lock-only
+
+      - name: Setup Node.js with npm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check dependency
+        run: |
+          echo "Dependencies installed successfully"
+          node -e "console.log(require('lodash').VERSION)"
