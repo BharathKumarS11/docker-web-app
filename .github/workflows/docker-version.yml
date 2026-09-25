@@ -1,0 +1,32 @@
+name: Docker Versioned Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Docker image version"
+        required: true
+        default: "v1"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t ghcr.io/bharathkumars11/devops-web-app:${{ inputs.version }} \
+            .
+
+      - name: Tag latest
+        run: |
+          docker tag \
+            ghcr.io/bharathkumars11/devops-web-app:${{ inputs.version }} \
+            ghcr.io/bharathkumars11/devops-web-app:latest
+
+      - name: Show images
+        run: docker images

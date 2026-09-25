@@ -1,0 +1,25 @@
+name: Fixed Production Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    environment: production
+
+    steps:
+      - name: Start deployment
+        run: |
+          echo "Deployment started"
+          echo "Target environment: production"
+
+      - name: Deploy application
+        run: |
+          echo "Deploying application to production"
+
+      - name: Deployment complete
+        run: |
+          echo "Deployment to production completed successfully"

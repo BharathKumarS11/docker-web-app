@@ -1,0 +1,33 @@
+name: Matrix Practice
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test on Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version:
+          - 18
+          - 20
+          - 22
+
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Check Node version
+        run: |
+          echo "Testing with Node.js ${{ matrix.node-version }}"
+          node --version
+
+      - name: Run test
+        run: |
+          echo "Tests passed on Node.js ${{ matrix.node-version }}"

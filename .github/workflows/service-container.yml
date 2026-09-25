@@ -1,0 +1,42 @@
+name: Service Container Practice
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: testdb
+          POSTGRES_USER: testuser
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U testuser -d testdb"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Check PostgreSQL
+        run: |
+          echo "PostgreSQL service is running"
+          docker ps
+
+      - name: Test PostgreSQL connection
+        run: |
+          docker run --rm \
+            --network host \
+            postgres:16 \
+            pg_isready \
+            -h localhost \
+            -p 5432 \
+            -U testuser \
+            -d testdb

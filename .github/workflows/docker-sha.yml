@@ -1,0 +1,29 @@
+name: Docker SHA Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image with commit SHA
+        run: |
+          docker build \
+            -t ghcr.io/bharathkumars11/devops-web-app:${{ github.sha }} \
+            .
+
+      - name: Tag latest
+        run: |
+          docker tag \
+            ghcr.io/bharathkumars11/devops-web-app:${{ github.sha }} \
+            ghcr.io/bharathkumars11/devops-web-app:latest
+
+      - name: Show Docker images
+        run: docker images
